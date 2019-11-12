@@ -9,7 +9,8 @@ setwd(this.dir)
 #set data file, class and values
 iris = read.csv('iris.csv', sep=",")
 irisClass = iris[,1]
-irisValues = iris[.-1]
+irisValues = iris[,-1]
+iris_rand=iris[sample(150,150),]
 
 TrainingSet<-function(idataClass,idataValues,setValues)
 {
@@ -64,5 +65,6 @@ Accuracy<-function(knnGenValues,testValues)
 #1
 for(i in 1:3 )
 {
-    dTree[i]=DecisionTree(irisValues)
+    irisTrain[i]=TrainingSet
+    dTree[i]=DecisionTree(asd,"class",iris_rand)
 }
