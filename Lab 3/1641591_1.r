@@ -1,5 +1,5 @@
 #install.packages("rpart")
-#library(rpart)
+library(rpart)
 library(class)
 
 #Set Directory to this current directory
@@ -8,24 +8,24 @@ setwd(this.dir)
 
 #set data file, class and values
 iris = read.csv('iris.csv', sep=",")
-irisClass = iris[,1]
-irisValues = iris[,-1]
-iris_rand=iris[sample(150,150),]
 
-TrainingSet<-function(idataClass,idataValues,setValues)
+
+TrainingSet<-function(idataClass,idataValues)
 {
-    idataClassTrain = idataClass[setValues]
-    idataValuesTrain = idataValues[setValues]
+    idataClassTrain = idataClass[1:100]
+    idataValuesTrain = idataValues[1:100,]
+    result <- list(classTrain = idataClassTrain, classValues = idataClassTrain)
+    return(result)
 }
 
 TestSet<-function(idataClass,idataValues,setValues)
 {
     idataClassTest = idataClass[setValues]
-    idataValuesTest= idataValues[setValues]
+    idataValuesTest= idataValues[setValues,]
 }
 
 
-#DecisionTree
+#KNN Function
 KNN<-function(valuesTrain,valuesTest,classTrain,kvalue)
 {
     knn3pred = knn(valuesTrain,valuesTest,classTrain,kvalue)
@@ -35,7 +35,7 @@ KNN<-function(valuesTrain,valuesTest,classTrain,kvalue)
 #Decision trees
 DecisionTree<-function(trainSet,methodType,dataset)
 {
-    fit <- rpart(trainSet~., method = methodType, data=dataset)
+    
     plot(fit, uniform=TRUE, main="Decision Tree for",trainSet)
     text(fit, use.n=TRUE, all=TRUE, cex=.8)
 
@@ -62,9 +62,12 @@ Accuracy<-function(knnGenValues,testValues)
 
 }
 
-#1
-for(i in 1:3 )
-{
-    irisTrain[i]=TrainingSet
-    dTree[i]=DecisionTree(asd,"class",iris_rand)
-}
+
+iris_rand=iris[sample(150,150),]
+irisClass = iris_rand[,1]
+irisValues = iris_rand[,-1]
+
+
+irisTrain1=TrainingSet(irisClass,irisValues)
+irisClassTrain = irisTrain1[1]
+# irisTrain1fit <- rpart(irisClassTrain~., method = "class", data=irisTrain1[2])
